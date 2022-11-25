@@ -4,6 +4,8 @@ Tired of refreshing the page with available appointments at the Leipzig city off
 
 [![@leipzig_appointments](https://img.shields.io/badge/Telegram%20Channel-@leipzig_appointments-blue?logo=telegram&style=plastic)](https://t.me/leipzig_appointments)
 
+![screenshot](screenshot.png)
+
 ## Deployment
 
 - Create a file `env.json`
