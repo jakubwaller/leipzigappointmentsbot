@@ -34,8 +34,8 @@ try:
                     full_message = full_message + "\n"
                 full_message = full_message + \
                                f"{collected_date} {collected_time} - {collected_unit}"
-        if full_message != "":
-            send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
+    if full_message != "":
+        send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
 except Exception as exc:
     print(exc)
     traceback.print_exc()
