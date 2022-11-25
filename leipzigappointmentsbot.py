@@ -26,7 +26,6 @@ try:
         collected_date, collected_time = appointments[d + 14:end].split(" ")
         end_unit = appointments[u + 9:].find("\"") + u + 9
         collected_unit = appointments[u + 9:end_unit]
-        print(collected_date, collected_time, collected_unit)
         day, month, year = collected_date.split(".")
         if year == "2022" and int(month) <= 12:
             if month == "11" or (month == "12" and int(day) <= 10):
