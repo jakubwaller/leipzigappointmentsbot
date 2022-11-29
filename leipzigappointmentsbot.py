@@ -26,13 +26,10 @@ try:
         collected_date, collected_time = appointments[d + 14:end].split(" ")
         end_unit = appointments[u + 9:].find("\"") + u + 9
         collected_unit = appointments[u + 9:end_unit]
-        day, month, year = collected_date.split(".")
-        if year == "2022" and int(month) <= 12:
-            if month == "11" or (month == "12" and int(day) <= 10):
-                if full_message != "":
-                    full_message = full_message + "\n"
-                full_message = full_message + \
-                               f"{collected_date} {collected_time} - {collected_unit}"
+        if full_message != "":
+            full_message = full_message + "\n"
+        full_message = full_message + \
+                       f"{collected_date} {collected_time} - {collected_unit}"
     if full_message != "":
         send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
 except Exception as exc:
