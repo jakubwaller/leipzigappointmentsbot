@@ -1,6 +1,8 @@
 import re
 import traceback
 
+from requests_oauthlib import OAuth1Session
+
 from tools import *
 
 config = read_config()
@@ -10,6 +12,13 @@ chat_id = config["chat_id"]
 wsid = config["wsid"]
 
 try:
+    oauth = OAuth1Session(
+        config['twitter_key'],
+        client_secret=config['twitter_secret'],
+        resource_owner_key=config['twitter_token_key'],
+        resource_owner_secret=config['twitter_token_secret'],
+    )
+
     appointments = run_request("GET",
                                'https://terminvereinbarung.leipzig.de/m/leipzig-ba/extern/calendar/search_result?'
                                'search_mode=earliest&'
@@ -35,7 +44,11 @@ try:
                        f"{collected_date} {collected_time} - {collected_unit}"
     if full_message != "":
         send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
+        response = oauth.post(
+            "https://api.twitter.com/2/tweets",
+            json={"text": full_message},
+        )
 except Exception as exc:
     print(exc)
     traceback.print_exc()
-    send_message(bot_id, developer_chat_id, str(exc)[0:500])
+    send_message(bot_id, developer_chat_id, str(exc)[0:100])
