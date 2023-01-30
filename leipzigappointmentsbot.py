@@ -1,7 +1,7 @@
 import re
 import traceback
 
-from requests_oauthlib import OAuth1Session
+import tweepy as tweepy
 
 from tools import *
 
@@ -12,12 +12,14 @@ chat_id = config["chat_id"]
 wsid = config["wsid"]
 
 try:
-    oauth = OAuth1Session(
+    auth = tweepy.OAuth1UserHandler(
         config['twitter_key'],
-        client_secret=config['twitter_secret'],
-        resource_owner_key=config['twitter_token_key'],
-        resource_owner_secret=config['twitter_token_secret'],
+        config['twitter_secret'],
+        config['twitter_token_key'],
+        config['twitter_token_secret']
     )
+
+    api = tweepy.API(auth)
 
     appointments = run_request("GET",
                                'https://terminvereinbarung.leipzig.de/m/leipzig-ba/extern/calendar/search_result?'
@@ -44,10 +46,7 @@ try:
                        f"{collected_date} {collected_time} - {collected_unit}"
     if full_message != "":
         send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
-        response = oauth.post(
-            "https://api.twitter.com/2/tweets",
-            json={"text": full_message},
-        )
+        api.update_status(full_message)
 except Exception as exc:
     print(exc)
     traceback.print_exc()
