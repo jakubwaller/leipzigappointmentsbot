@@ -48,6 +48,8 @@ try:
         send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
         api.update_status(full_message)
 except Exception as exc:
-    print(exc)
-    traceback.print_exc()
-    send_message(bot_id, developer_chat_id, str(exc)[0:100])
+    error_message = str(exc)[0:100]
+    if "Status is a duplicate" not in error_message:
+        print(exc)
+        traceback.print_exc()
+        send_message(bot_id, developer_chat_id, error_message)
