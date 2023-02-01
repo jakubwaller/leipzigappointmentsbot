@@ -46,7 +46,15 @@ try:
                        f"{collected_date} {collected_time} - {collected_unit}"
     if full_message != "":
         send_message(bot_id, chat_id, full_message, num_of_tries=1, timestamp=False)
-        api.update_status(full_message)
+        tweet = api.update_status(full_message[0:280])
+        full_message = full_message[280:]
+        remaining_length = len(full_message)
+        while remaining_length > 0:
+            tweet = api.update_status(status=full_message[0:280],
+                                      in_reply_to_status_id=tweet.id,
+                                      auto_populate_reply_metadata=True)
+            full_message = full_message[280:]
+            remaining_length = len(full_message)
 except Exception as exc:
     error_message = str(exc)[0:100]
     if "Status is a duplicate" not in error_message:
