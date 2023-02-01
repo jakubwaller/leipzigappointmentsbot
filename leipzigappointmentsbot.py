@@ -57,7 +57,7 @@ try:
             remaining_length = len(full_message)
             while remaining_length > 0:
                 last_newline = full_message.rfind("\n", 0, 280)
-                if last_newline == -1:
+                if last_newline == -1 or len(full_message) <= 280:
                     last_newline = 280
                 tweet = api.update_status(status=full_message[0:last_newline],
                                           in_reply_to_status_id=tweet.id,
