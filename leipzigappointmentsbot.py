@@ -1,5 +1,6 @@
 import re
 import traceback
+from datetime import datetime
 
 import tweepy as tweepy
 
@@ -10,6 +11,7 @@ developer_chat_id = config["developer_chat_id"]
 bot_id = f'bot{config["bot_token"]}'
 chat_id = config["chat_id"]
 wsid = config["wsid"]
+sent_day = 0
 
 try:
     # auth = tweepy.OAuth1UserHandler(
@@ -29,8 +31,9 @@ try:
                                num_of_tries=1,
                                decode_json=False)
 
-    if appointments.find("Session abgelaufen") != -1:
+    if appointments.find("Session abgelaufen") != -1 and sent_day != datetime.now().day:
         send_message(bot_id, developer_chat_id, "Session abgelaufen")
+        sent_day = datetime.now().day
 
     result = [_.start() for _ in re.finditer("\"date_time\"", appointments)]
     result_units = [_.start() for _ in re.finditer("\"unit\"", appointments)]
