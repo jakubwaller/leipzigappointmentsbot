@@ -28,7 +28,7 @@ try:
                                'search_mode=earliest&'
                                'uid=b76cab25-49bd-44e3-950d-aab715881ea7&'
                                f'wsid={wsid}',
-                               num_of_tries=1,
+                               num_of_tries=3,
                                decode_json=False)
 
     if appointments.find("Session abgelaufen") != -1 and sent_day != datetime.now().day:
