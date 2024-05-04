@@ -1,3 +1,4 @@
+import html
 import re
 import traceback
 
@@ -25,7 +26,7 @@ try:
         end = appointments[d + 14:d + 31].find("\"") + d + 14
         collected_date, collected_time = appointments[d + 14:end].split(" ")
         end_unit = appointments[u + 9:].find("\"") + u + 9
-        collected_unit = appointments[u + 9:end_unit]
+        collected_unit = html.unescape(appointments[u + 9:end_unit])
         if full_message != "":
             full_message = full_message + "\n"
         full_message = full_message + \
